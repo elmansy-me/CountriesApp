@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A7DD1B8A2D4A57BA00D08424 /* NetworkLayer in Frameworks */ = {isa = PBXBuildFile; productRef = A7DD1B892D4A57BA00D08424 /* NetworkLayer */; };
+		A7DD1B8D2D4A63D000D08424 /* CountryDataService in Frameworks */ = {isa = PBXBuildFile; productRef = A7DD1B8C2D4A63D000D08424 /* CountryDataService */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7DD1B8A2D4A57BA00D08424 /* NetworkLayer in Frameworks */,
+				A7DD1B8D2D4A63D000D08424 /* CountryDataService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +129,7 @@
 			);
 			name = CountriesApp;
 			packageProductDependencies = (
-				A7DD1B892D4A57BA00D08424 /* NetworkLayer */,
+				A7DD1B8C2D4A63D000D08424 /* CountryDataService */,
 			);
 			productName = CountriesApp;
 			productReference = A7B9E5922D4A4E9C00AE3B0B /* CountriesApp.app */;
@@ -578,9 +578,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A7DD1B892D4A57BA00D08424 /* NetworkLayer */ = {
+		A7DD1B8C2D4A63D000D08424 /* CountryDataService */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = NetworkLayer;
+			productName = CountryDataService;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

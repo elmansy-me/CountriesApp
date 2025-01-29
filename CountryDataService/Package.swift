@@ -5,17 +5,26 @@ import PackageDescription
 
 let package = Package(
     name: "CountryDataService",
+    platforms: [
+        .iOS(.v15)
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "CountryDataService",
-            targets: ["CountryDataService"]),
+            targets: ["CountryDataService"]
+        ),
+    ],
+    dependencies: [
+        .package(name: "NetworkLayer", path: "../NetworkLayer")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "CountryDataService"),
+            name: "CountryDataService",
+            dependencies: ["NetworkLayer"]
+        ),
         .testTarget(
             name: "CountryDataServiceTests",
             dependencies: ["CountryDataService"]
