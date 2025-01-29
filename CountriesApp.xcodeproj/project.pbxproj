@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A7DD1B8A2D4A57BA00D08424 /* NetworkLayer in Frameworks */ = {isa = PBXBuildFile; productRef = A7DD1B892D4A57BA00D08424 /* NetworkLayer */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A7B9E5A32D4A4E9D00AE3B0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -53,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7DD1B8A2D4A57BA00D08424 /* NetworkLayer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +85,7 @@
 				A7B9E5942D4A4E9C00AE3B0B /* CountriesApp */,
 				A7B9E5A52D4A4E9D00AE3B0B /* CountriesAppTests */,
 				A7B9E5AF2D4A4E9D00AE3B0B /* CountriesAppUITests */,
+				A7DD1B882D4A57BA00D08424 /* Frameworks */,
 				A7B9E5932D4A4E9C00AE3B0B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,6 +98,13 @@
 				A7B9E5AC2D4A4E9D00AE3B0B /* CountriesAppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A7DD1B882D4A57BA00D08424 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -114,6 +127,7 @@
 			);
 			name = CountriesApp;
 			packageProductDependencies = (
+				A7DD1B892D4A57BA00D08424 /* NetworkLayer */,
 			);
 			productName = CountriesApp;
 			productReference = A7B9E5922D4A4E9C00AE3B0B /* CountriesApp.app */;
@@ -560,6 +574,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A7DD1B892D4A57BA00D08424 /* NetworkLayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkLayer;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A7B9E58A2D4A4E9C00AE3B0B /* Project object */;
 }
