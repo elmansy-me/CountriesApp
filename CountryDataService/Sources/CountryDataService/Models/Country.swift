@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct Country: Codable {
-    let name: String
-    let capital: String?
-    let currencies: [Currency]?
-    let flag: String?
+public struct Country: Codable, Sendable {
+    public let name: String
+    public let capital: String?
+    public let currencies: [Currency]?
+    public let flag: String?
 }

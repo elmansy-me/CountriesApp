@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import CountryDataService
 
 @main
 struct CountriesAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let repository = CountryRepositoryBuilder.build()
+            let viewModel = HomeViewModel(countryRepository: repository)
+            let homeView = HomeView(viewModel: viewModel)
+            homeView
         }
     }
 }

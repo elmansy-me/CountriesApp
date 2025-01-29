@@ -7,6 +7,6 @@
 
 import Foundation
 
-public struct Currency: Codable {
+public struct Currency: Codable, Sendable {
     let code, name, symbol: String
 }
