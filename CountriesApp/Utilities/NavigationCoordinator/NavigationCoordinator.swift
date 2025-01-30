@@ -42,13 +42,8 @@ class NavigationCoordinator: NSObject, ObservableObject {
     private func configureNavigationBarAppearance(_ navigationController: UINavigationController) {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-        
         navigationController.navigationBar.standardAppearance = appearance
         navigationController.navigationBar.scrollEdgeAppearance = appearance
         navigationController.navigationBar.compactAppearance = appearance
-        navigationController.navigationBar.tintColor = .black
     }
 }

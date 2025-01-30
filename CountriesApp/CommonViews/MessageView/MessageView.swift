@@ -26,7 +26,7 @@ struct MessageView: View {
                     .foregroundColor(icon.foregroundColor)
                 
                 Text(message)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(.label))
                     .multilineTextAlignment(.center)
             }
             .padding()
@@ -38,9 +38,9 @@ struct MessageView: View {
                 Button(action: retryAction) {
                     Text("Retry")
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(.systemBackground))
                         .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color.blue)
+                        .background(.primary)
                         .cornerRadius(8)
                 }
                 .contentShape(Rectangle())

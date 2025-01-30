@@ -38,9 +38,9 @@ struct HomeView: View {
                     Button(action: viewModel.viewAllCountriesTapped) {
                         Text("View All Countries")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(.systemBackground))
                             .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(Color.blue)
+                            .background(.primary)
                             .cornerRadius(8)
                     }
                     .contentShape(Rectangle())

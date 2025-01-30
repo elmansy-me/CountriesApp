@@ -37,7 +37,7 @@ struct CountryListView: View {
                     Spacer()
                 }
                 .padding(.vertical, 6)
-                .background(Color(.systemBackground))
+                .background(.black.opacity(0.00001))
             }
             .buttonStyle(PlainButtonStyle())
             .contentShape(Rectangle())

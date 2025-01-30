@@ -25,7 +25,7 @@ enum MessageViewIcon {
         case .error:
             return .red
         case .search:
-            return .gray
+            return .secondary
         }
     }
 }
