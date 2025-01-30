@@ -12,18 +12,40 @@ import CountryDataService
 @MainActor
 class SearchViewModel: ObservableObject {
     
-    private let allCountries: [Country]
+    private var allCountries: [Country] = []
     private var cancellables: Set<AnyCancellable> = []
     
-    @Published private(set) var countries: [Country]? = []
+    @Published private(set) var countries: RequestState<[Country]?> = .loading
     @Published var query: String = ""
     
+    private let repository: CountryRepository
     private let coordinator: NavigationCoordinator
     
-    init(coordinator: NavigationCoordinator, allCountries: [Country]) {
+    init(repository: CountryRepository, coordinator: NavigationCoordinator) {
+        self.repository = repository
         self.coordinator = coordinator
-        self.allCountries = allCountries
         bind()
+    }
+    
+    func loadCountries() async {
+        countries = .loading
+        do {
+            let countries = try await repository.fetchCountries()
+            await MainActor.run { [weak self] in
+                self?.allCountries = countries
+            }
+        } catch {
+            await MainActor.run { [weak self] in
+                self?.allCountries = []
+                self?.countries = .failure(error.localizedDescription)
+            }
+        }
+    }
+    
+    func retry() {
+        Task {
+            await loadCountries()
+        }
     }
     
     private func bind() {
@@ -35,7 +57,7 @@ class SearchViewModel: ObservableObject {
     
     private func search(query: String) {
         guard !query.isEmpty else {
-            countries = []
+            countries = .success([])
             return
         }
         let lowercasedQuery = query.lowercased()
@@ -43,9 +65,9 @@ class SearchViewModel: ObservableObject {
             $0.name.lowercased().contains(lowercasedQuery)
         }
         if result.isEmpty {
-            countries = nil
+            countries = .success(nil)
         } else {
-            countries = result
+            countries = .success(result)
         }
     }
     
