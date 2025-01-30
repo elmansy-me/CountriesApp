@@ -9,16 +9,14 @@ import Foundation
 import CountryDataService
 
 @MainActor
-class AllCountriesViewModel: ObservableObject {
+class AllCountriesViewModel: BaseViewModel {
     
     @Published var allCountries: RequestState<[Country]> = .loading
     
     private let repository: CountryRepository
-    private let coordinator: NavigationCoordinator
 
-    init(repository: CountryRepository, coordinator: NavigationCoordinator) {
+    init(repository: CountryRepository) {
         self.repository = repository
-        self.coordinator = coordinator
     }
     
     func loadCountries() async {
@@ -43,9 +41,9 @@ class AllCountriesViewModel: ObservableObject {
     
     func searchButtonTapped() {
         let repository = CountryRepositoryBuilder.build()
-        let viewModel = SearchViewModel(repository: repository, coordinator: coordinator)
+        let viewModel = SearchViewModel(repository: repository)
         let view = SearchView(viewModel: viewModel)
-        coordinator.push(view)
+        coordinator?.push(view)
     }
     
 }

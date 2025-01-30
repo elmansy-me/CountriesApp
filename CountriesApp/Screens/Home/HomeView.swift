@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @StateObject private var viewModel: HomeViewModel
+    @EnvironmentObject var coordinator: NavigationCoordinator
     
     init(viewModel: HomeViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -58,6 +59,9 @@ struct HomeView: View {
                     Image(systemName: "magnifyingglass")
                 }
             }
+        }
+        .onAppear {
+            viewModel.provideCoordinator(coordinator)
         }
         .task {
             await viewModel.loadCountries()

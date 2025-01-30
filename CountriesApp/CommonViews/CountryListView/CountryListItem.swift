@@ -10,4 +10,5 @@ import Foundation
 struct CountryListItem {
     let name: String
     let flagURL: String?
+    let countryCode: String
 }

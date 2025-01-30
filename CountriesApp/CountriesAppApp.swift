@@ -12,10 +12,12 @@ import CountryDataService
 struct CountriesAppApp: App {
     
     private let appCoordinator = AppCoordinator()
+    @StateObject private var navigationCoordinator = NavigationCoordinator()
 
     var body: some Scene {
         WindowGroup {
-            appCoordinator.start()
+            appCoordinator.start(coordinator: navigationCoordinator)
+                .environmentObject(navigationCoordinator)
         }
     }
 }

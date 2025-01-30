@@ -8,7 +8,8 @@
 import Foundation
 import CountryDataService
 
-class CountryListViewModel: ObservableObject {
+@MainActor
+class CountryListViewModel: BaseViewModel {
     
     let countries: [CountryListItem]
     
@@ -20,9 +21,17 @@ class CountryListViewModel: ObservableObject {
         countries.map({ country in
             CountryListItem(
                 name: country.name,
-                flagURL: country.flags?["png"]
+                flagURL: country.flags?["png"],
+                countryCode: country.countryCode
             )
         })
+    }
+    
+    func navigateToDetail(countryCode: String) {
+        let repository = CountryRepositoryBuilder.build()
+        let viewModel = CountryDetailsViewModel(countryCode: countryCode, repository: repository)
+        let view = CountryDetailsView(viewModel: viewModel)
+        coordinator?.push(view)
     }
     
 }

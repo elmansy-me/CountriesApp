@@ -10,30 +10,41 @@ import CountryDataService
 
 struct CountryListView: View {
     
-    @ObservedObject var viewModel: CountryListViewModel
+    @StateObject var viewModel: CountryListViewModel
+    @EnvironmentObject var coordinator: NavigationCoordinator
     
     init(countries: [Country]) {
-        self.viewModel = CountryListViewModel(countries: countries)
+        _viewModel = StateObject(wrappedValue: CountryListViewModel(countries: countries))
     }
     
     
     var body: some View {
         ForEach(viewModel.countries, id: \.name) { country in
-            HStack {
-                AsyncImageView(
-                    url: country.flagURL,
-                    placeholder: Image(systemName: "globe"),
-                    size: .init(width: 32, height: 32)
-                )
-                
-                Text(country.name)
-                    .font(.body)
-                    .foregroundColor(.primary)
-                
-                Spacer()
+            Button(action: {
+                viewModel.navigateToDetail(countryCode: country.countryCode)
+            }) {
+                HStack {
+                    AsyncImageView(
+                        url: country.flagURL,
+                        placeholder: Image(systemName: "globe"),
+                        size: .init(width: 32, height: 32)
+                    )
+                    
+                    Text(country.name)
+                        .font(.body)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                }
+                .padding(.vertical, 6)
+                .background(Color(.systemBackground))
             }
-            .padding(.vertical, 6)
+            .buttonStyle(PlainButtonStyle())
+            .contentShape(Rectangle())
         }
         .listStyle(PlainListStyle())
+        .onAppear {
+            viewModel.provideCoordinator(coordinator)
+        }
     }
 }

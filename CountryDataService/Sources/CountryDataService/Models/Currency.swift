@@ -8,5 +8,5 @@
 import Foundation
 
 public struct Currency: Codable, Sendable {
-    let code, name, symbol: String
+    public let code, name, symbol: String
 }

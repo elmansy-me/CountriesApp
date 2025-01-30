@@ -15,15 +15,13 @@ class SearchViewModel: ObservableObject {
     private var allCountries: [Country] = []
     private var cancellables: Set<AnyCancellable> = []
     
-    @Published private(set) var countries: RequestState<[Country]?> = .loading
+    @Published private(set) var countries: RequestState<[Country]?> = .success([])
     @Published var query: String = ""
     
     private let repository: CountryRepository
-    private let coordinator: NavigationCoordinator
     
-    init(repository: CountryRepository, coordinator: NavigationCoordinator) {
+    init(repository: CountryRepository) {
         self.repository = repository
-        self.coordinator = coordinator
         bind()
     }
     

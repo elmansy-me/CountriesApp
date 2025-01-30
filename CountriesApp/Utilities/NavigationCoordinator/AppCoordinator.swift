@@ -10,16 +10,14 @@ import CountryDataService
 
 @MainActor
 class AppCoordinator {
-    let navigationCoordinator = NavigationCoordinator()
 
-    func start() -> some View {
+    func start(coordinator: NavigationCoordinator) -> some View {
         let repository = UserCountryRepositoryBuilder.build()
         let viewModel = HomeViewModel(
-            repository: repository,
-            coordinator: navigationCoordinator
+            repository: repository
         )
         let view = NavigationContainerView(
-            coordinator: navigationCoordinator,
+            coordinator: coordinator,
             rootView: HomeView(viewModel: viewModel)
         )
         return view
