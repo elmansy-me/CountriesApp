@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var query: String = ""
+    
+    @StateObject private var viewModel: SearchViewModel
+    
+    init(viewModel: SearchViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
-        EmptyView()
-            .searchable(text: $query, placement: .automatic)
+        Group {
+            if let countries = viewModel.countries {
+                CountryListView(countries: countries)
+            } else {
+                ErrorView(message: "Oops! We couldn't find any results matching your search")
+            }
+        }
+        .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always))
     }
-}
-
-#Preview {
-    SearchView()
 }

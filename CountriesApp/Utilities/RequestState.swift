@@ -11,4 +11,13 @@ enum RequestState<T> {
     case loading
     case success(T)
     case failure(String)
+    
+    var data: T? {
+        switch self {
+        case .success(let data):
+            return data
+        default:
+            return nil
+        }
+    }
 }

@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct ErrorView: View {
-    let errorMessage: String
+    let message: String
     let retryAction: (() -> Void)?
+    
+    init(message: String, retryAction: (() -> Void)? = nil) {
+        self.message = message
+        self.retryAction = retryAction
+    }
     
     var body: some View {
         VStack(spacing: 12) {
@@ -18,7 +23,7 @@ struct ErrorView: View {
                     .font(.system(size: 24))
                     .foregroundColor(.red)
                 
-                Text(errorMessage)
+                Text(message)
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
             }
@@ -44,5 +49,5 @@ struct ErrorView: View {
 }
 
 #Preview {
-    ErrorView(errorMessage: "Something went wrong...", retryAction: {})
+    ErrorView(message: "Something went wrong...", retryAction: {})
 }

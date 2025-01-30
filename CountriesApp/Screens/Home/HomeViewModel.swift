@@ -42,7 +42,9 @@ class HomeViewModel: ObservableObject {
     }
     
     func searchButtonTapped() {
-        let view = SearchView()
+        guard let countries = allCountries.data else { return }
+        let viewModel = SearchViewModel(coordinator: coordinator, allCountries: countries)
+        let view = SearchView(viewModel: viewModel)
         coordinator.push(view)
     }
     

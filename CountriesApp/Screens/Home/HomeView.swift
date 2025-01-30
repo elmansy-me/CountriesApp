@@ -23,7 +23,7 @@ struct HomeView: View {
             case .success(let list):
                 CountryListView(countries: list)
             case .failure(let error):
-                ErrorView(errorMessage: error, retryAction: {
+                ErrorView(message: error, retryAction: {
                     viewModel.retry()
                 })
             }
