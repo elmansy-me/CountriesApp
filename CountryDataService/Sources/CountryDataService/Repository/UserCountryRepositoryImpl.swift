@@ -36,4 +36,10 @@ class UserCountryRepositoryImpl: UserCountryRepository {
         try await repository.fetchCountry(countryCode: countryCode)
     }
     
+    func getStarredCountries() async throws -> [Country] {
+        let data = try await repository.fetchCountries()
+        let result = Array(data.prefix(5))
+        return result
+    }
+    
 }

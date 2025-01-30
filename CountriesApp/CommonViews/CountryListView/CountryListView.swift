@@ -18,7 +18,7 @@ struct CountryListView: View {
     
     
     var body: some View {
-        List(viewModel.countries, id: \.name) { country in
+        ForEach(viewModel.countries, id: \.name) { country in
             HStack {
                 AsyncImageView(
                     url: country.flagURL,

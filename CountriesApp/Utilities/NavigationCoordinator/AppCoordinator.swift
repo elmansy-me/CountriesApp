@@ -13,9 +13,9 @@ class AppCoordinator {
     let navigationCoordinator = NavigationCoordinator()
 
     func start() -> some View {
-        let repository = CountryRepositoryBuilder.build()
+        let repository = UserCountryRepositoryBuilder.build()
         let viewModel = HomeViewModel(
-            countryRepository: repository,
+            repository: repository,
             coordinator: navigationCoordinator
         )
         let view = NavigationContainerView(

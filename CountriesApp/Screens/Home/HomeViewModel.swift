@@ -11,26 +11,31 @@ import CountryDataService
 @MainActor
 class HomeViewModel: ObservableObject {
     
-    @Published var allCountries: RequestState<[Country]> = .loading
+    @Published var sections: RequestState<[String: [Country]]> = .loading
     
-    private let countryRepository: CountryRepository
+    private let repository: UserCountryRepository
     private let coordinator: NavigationCoordinator
 
-    init(countryRepository: CountryRepository, coordinator: NavigationCoordinator) {
-        self.countryRepository = countryRepository
+    init(repository: UserCountryRepository, coordinator: NavigationCoordinator) {
+        self.repository = repository
         self.coordinator = coordinator
     }
-
+    
     func loadCountries() async {
-        allCountries = .loading
+        sections = .loading
         do {
-            let countries = try await countryRepository.fetchCountries()
+            let userCountry = try await repository.getCountry()
             await MainActor.run { [weak self] in
-                self?.allCountries = .success(countries)
+                self?.addSection(for: "My Country", with: [userCountry])
+            }
+            
+            let countries = try await repository.getStarredCountries()
+            await MainActor.run { [weak self] in
+                self?.addSection(for: "Starred", with: countries)
             }
         } catch {
             await MainActor.run { [weak self] in
-                self?.allCountries = .failure(error.localizedDescription)
+                self?.sections = .failure(error.localizedDescription)
             }
         }
     }
@@ -41,11 +46,28 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    private func addSection(for key: String,with value: [Country]) {
+        guard var data = sections.data else {
+            sections = .success([key: value])
+            return
+        }
+        guard !data.keys.contains(key) else {
+            return
+        }
+        
+        data[key] = value
+        sections = .success(data)
+    }
+    
     func searchButtonTapped() {
-        guard let countries = allCountries.data else { return }
-        let viewModel = SearchViewModel(coordinator: coordinator, allCountries: countries)
-        let view = SearchView(viewModel: viewModel)
-        coordinator.push(view)
+//        guard let countries = sections.data else { return }
+//        let viewModel = SearchViewModel(coordinator: coordinator, allCountries: countries)
+//        let view = SearchView(viewModel: viewModel)
+//        coordinator.push(view)
+    }
+    
+    func viewAllCountriesTapped() {
+        
     }
     
 }

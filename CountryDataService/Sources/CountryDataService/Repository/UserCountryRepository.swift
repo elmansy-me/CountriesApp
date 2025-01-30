@@ -9,4 +9,5 @@ import Foundation
 
 public protocol UserCountryRepository {
     func getCountry() async throws -> Country
+    func getStarredCountries() async throws -> [Country]
 }

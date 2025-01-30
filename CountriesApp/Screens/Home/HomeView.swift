@@ -17,11 +17,34 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            switch viewModel.allCountries {
+            switch viewModel.sections {
             case .loading:
                 LoadingView()
-            case .success(let list):
-                CountryListView(countries: list)
+            case .success(let sections):
+                VStack {
+                    List {
+                        ForEach(sections.keys.sorted(), id: \.self) { key in
+                            Section(header: Text(key).font(.headline)) {
+                                if let countries = sections[key] {
+                                    CountryListView(countries: countries)
+                                } else {
+                                    LoadingView()
+                                }
+                            }
+                        }
+                    }
+                    
+                    Button(action: viewModel.viewAllCountriesTapped) {
+                        Text("View All Countries")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity, minHeight: 50)
+                            .background(Color.blue)
+                            .cornerRadius(8)
+                    }
+                    .contentShape(Rectangle())
+                    .padding()
+                }
             case .failure(let error):
                 ErrorView(message: error, retryAction: {
                     viewModel.retry()
