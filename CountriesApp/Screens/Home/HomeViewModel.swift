@@ -14,9 +14,11 @@ class HomeViewModel: ObservableObject {
     @Published var allCountries: RequestState<[Country]> = .loading
     
     private let countryRepository: CountryRepository
+    private let coordinator: NavigationCoordinator
 
-    init(countryRepository: CountryRepository) {
+    init(countryRepository: CountryRepository, coordinator: NavigationCoordinator) {
         self.countryRepository = countryRepository
+        self.coordinator = coordinator
     }
 
     func loadCountries() async {
@@ -37,6 +39,11 @@ class HomeViewModel: ObservableObject {
         Task {
             await loadCountries()
         }
+    }
+    
+    func searchButtonTapped() {
+        let view = SearchView()
+        coordinator.push(view)
     }
     
 }

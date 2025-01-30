@@ -10,12 +10,12 @@ import CountryDataService
 
 @main
 struct CountriesAppApp: App {
+    
+    private let appCoordinator = AppCoordinator()
+
     var body: some Scene {
         WindowGroup {
-            let repository = CountryRepositoryBuilder.build()
-            let viewModel = HomeViewModel(countryRepository: repository)
-            let homeView = HomeView(viewModel: viewModel)
-            homeView
+            appCoordinator.start()
         }
     }
 }

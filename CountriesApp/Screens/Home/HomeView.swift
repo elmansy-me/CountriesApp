@@ -16,23 +16,28 @@ struct HomeView: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                switch viewModel.allCountries {
-                case .loading:
-                    LoadingView()
-                case .success(let list):
-                    CountryListView(countries: list)
-                case .failure(let error):
-                    ErrorView(errorMessage: error, retryAction: {
-                        viewModel.retry()
-                    })
+        VStack {
+            switch viewModel.allCountries {
+            case .loading:
+                LoadingView()
+            case .success(let list):
+                CountryListView(countries: list)
+            case .failure(let error):
+                ErrorView(errorMessage: error, retryAction: {
+                    viewModel.retry()
+                })
+            }
+        }
+        .navigationTitle("Countries")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: viewModel.searchButtonTapped ) {
+                    Image(systemName: "magnifyingglass")
                 }
             }
-            .navigationTitle("Countries")
-            .task {
-                await viewModel.loadCountries()
-            }
+        }
+        .task {
+            await viewModel.loadCountries()
         }
     }
 }
