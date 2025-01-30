@@ -19,4 +19,9 @@ class CountryRepositoryImpl: CountryRepository {
         let data = try await remoteService.fetchCountries()
         return data
     }
+    
+    func fetchCountry(countryCode: String) async throws -> Country {
+        let data = try await remoteService.fetchCountry(countryCode: countryCode)
+        return data
+    }
 }

@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 protocol UserLocationService {
-    func getUserCountry() async -> String?
+    func getCountryCode() async -> String?
 }
 
 class UserLocationServiceImpl: NSObject, ObservableObject, CLLocationManagerDelegate, UserLocationService {
@@ -23,7 +23,7 @@ class UserLocationServiceImpl: NSObject, ObservableObject, CLLocationManagerDele
         locationManager?.delegate = self
     }
     
-    func getUserCountry() async -> String? {
+    func getCountryCode() async -> String? {
         return await withCheckedContinuation { [weak self] continuation in
             self?.continuation = continuation
             self?.locationManager?.requestWhenInUseAuthorization()
@@ -46,7 +46,7 @@ class UserLocationServiceImpl: NSObject, ObservableObject, CLLocationManagerDele
     private func fetchCountryFromLocation(_ location: CLLocation) {
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
-            if let country = placemarks?.first?.country, error == nil {
+            if let country = placemarks?.first?.isoCountryCode, error == nil {
                 self?.continuation?.resume(returning: country)
             } else {
                 self?.continuation?.resume(returning: nil)

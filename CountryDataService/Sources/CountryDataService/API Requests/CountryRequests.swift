@@ -11,7 +11,8 @@ import NetworkLayer
 enum CountryRequests: APIRequest {
     
     case getAll
-    case getCountryNameFromIP
+    case getCurrentCountryCode
+    case getCountry(countryCode: String)
     
     var scheme: URLScheme {
         .https
@@ -19,9 +20,9 @@ enum CountryRequests: APIRequest {
     
     var host: String {
         switch self {
-        case .getAll:
+        case .getAll, .getCountry:
             return "restcountries.com"
-        case .getCountryNameFromIP:
+        case .getCurrentCountryCode:
             return "ipapi.co"
         }
     }
@@ -30,8 +31,10 @@ enum CountryRequests: APIRequest {
         switch self {
         case .getAll:
             return "/v2/all"
-        case .getCountryNameFromIP:
-            return "/country_name"
+        case .getCurrentCountryCode:
+            return "/country_code"
+        case .getCountry(let countryCode):
+            return "/v2/alpha/\(countryCode)"
         }
     }
     
@@ -39,7 +42,9 @@ enum CountryRequests: APIRequest {
         switch self {
         case .getAll:
             return .GET
-        case .getCountryNameFromIP:
+        case .getCurrentCountryCode:
+            return .GET
+        case .getCountry:
             return .GET
         }
     }

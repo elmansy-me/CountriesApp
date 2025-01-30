@@ -9,4 +9,5 @@ import Foundation
 
 public protocol CountryRepository {
     func fetchCountries() async throws -> [Country]
+    func fetchCountry(countryCode: String) async throws -> Country
 }

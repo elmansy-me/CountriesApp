@@ -9,11 +9,19 @@ import Foundation
 import NetworkLayer
 
 public final class CountryNameRepositoryBuilder {
-    static public func build() -> CountryNameRepository {
+    static public func build() -> UserCountryRepository {
         let networkService = NetworkService()
-        let remoteService = RemoteCountryNameService(networkService: networkService)
+        
+        let remoteCountriesService = RemoteCountryService(networkService: networkService)
+        let countriesRepository = CountryRepositoryImpl(remoteService: remoteCountriesService)
+        
+        let remoteService = RemoteCountryCodeService(networkService: networkService)
         let userLocationService = UserLocationServiceImpl()
-        let repository = CountryNameRepositoryImpl(remoteService: remoteService, userLocationService: userLocationService)
+        let repository = UserCountryRepositoryImpl(
+            repository: countriesRepository,
+            remoteService: remoteService,
+            userLocationService: userLocationService
+        )
         return repository
     }
 }

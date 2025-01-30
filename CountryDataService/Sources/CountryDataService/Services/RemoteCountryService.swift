@@ -22,4 +22,14 @@ class RemoteCountryService {
         return response
     }
     
+    func fetchCountry(countryCode: String) async throws -> Country {
+        let request = CountryRequests.getCountry(countryCode: countryCode)
+        let response = try await networkService.request(request, responseType: Country?.self)
+        if let response {
+            return response
+        } else {
+            throw CountryError.countryNotFound
+        }
+    }
+    
 }
