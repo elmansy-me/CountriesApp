@@ -60,14 +60,17 @@ class HomeViewModel: ObservableObject {
     }
     
     func searchButtonTapped() {
-//        guard let countries = sections.data else { return }
-//        let viewModel = SearchViewModel(coordinator: coordinator, allCountries: countries)
-//        let view = SearchView(viewModel: viewModel)
-//        coordinator.push(view)
+        let repository = CountryRepositoryBuilder.build()
+        let viewModel = SearchViewModel(repository: repository, coordinator: coordinator)
+        let view = SearchView(viewModel: viewModel)
+        coordinator.push(view)
     }
     
     func viewAllCountriesTapped() {
-        
+        let repository = CountryRepositoryBuilder.build()
+        let viewModel = AllCountriesViewModel(repository: repository, coordinator: coordinator)
+        let view = AllCountriesView(viewModel: viewModel)
+        coordinator.push(view)
     }
     
 }

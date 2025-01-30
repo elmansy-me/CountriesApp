@@ -46,12 +46,12 @@ struct HomeView: View {
                     .padding()
                 }
             case .failure(let error):
-                ErrorView(message: error, retryAction: {
+                MessageView(message: error, retryAction: {
                     viewModel.retry()
                 })
             }
         }
-        .navigationTitle("Countries")
+        .navigationTitle("Home")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: viewModel.searchButtonTapped ) {
