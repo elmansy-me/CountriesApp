@@ -12,6 +12,7 @@ enum NetworkError: Error, LocalizedError {
     case noResponse
     case statusCode(Int)
     case decodingError(Error)
+    case apiError(APIErrorResponse)
     case unknown(Error)
 
     var errorDescription: String? {
@@ -24,6 +25,8 @@ enum NetworkError: Error, LocalizedError {
             return "Request failed with status code: \(code)"
         case .decodingError(let error):
             return "Failed to decode response: \(error.localizedDescription)"
+        case .apiError(let error):
+            return "\(error.message) (\(error.status))"
         case .unknown(let error):
             return "An unknown error occurred: \(error.localizedDescription)"
         }

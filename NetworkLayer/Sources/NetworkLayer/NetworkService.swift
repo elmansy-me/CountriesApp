@@ -39,7 +39,11 @@ public class NetworkService {
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
-                throw NetworkError.statusCode(httpResponse.statusCode)
+                if let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
+                    throw NetworkError.apiError(apiError)
+                } else {
+                    throw NetworkError.statusCode(httpResponse.statusCode)
+                }
             }
             
             return data
