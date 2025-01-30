@@ -10,6 +10,6 @@ import Foundation
 struct CountryDetailsViewItem {
     let name: String
     let flagURL: String
-    let currency: String
+    let currencies: [String: String]
     let capital: String
 }

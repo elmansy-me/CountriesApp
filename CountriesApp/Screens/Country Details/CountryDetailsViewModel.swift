@@ -25,17 +25,10 @@ class CountryDetailsViewModel: ObservableObject {
         country = .loading
         do {
             let country = try await repository.fetchCountry(countryCode: countryCode)
+            let mappedCountry = mapToViewItem(country)
+            
             await MainActor.run { [weak self] in
-                self?.country = .success(
-                    CountryDetailsViewItem(
-                        name: country.name,
-                        flagURL: country.flags?["png"] ?? "",
-                        currency: (country.currencies ?? []).map { currency in
-                            [currency.name + "(\(currency.symbol))"].joined(separator: " ")
-                        }.joined(separator: ", "),
-                        capital: country.capital ?? ""
-                    )
-                )
+                self?.country = .success(mappedCountry)
             }
         } catch {
             await MainActor.run { [weak self] in
@@ -48,6 +41,36 @@ class CountryDetailsViewModel: ObservableObject {
         Task {
             await fetchCountry()
         }
+    }
+    
+    private func mapToViewItem(_ country: Country) -> CountryDetailsViewItem {
+        let name = country.name
+        let flagURL = country.flags?["png"] ?? ""
+        let currencies: [String: String] = {
+            guard let currencies = country.currencies, !currencies.isEmpty else {
+                return ["No currency available": ""]
+            }
+            
+            return Dictionary(
+                uniqueKeysWithValues: currencies
+                    .map { (
+                        $0.name + " - " + $0.code,
+                        $0.symbol
+                    )
+                })
+        }()
+        let capital: String = {
+            if let capital = country.capital, !capital.isEmpty {
+                return capital
+            }
+            return "No capital available"
+        }()
+        return CountryDetailsViewItem(
+            name: name,
+            flagURL: flagURL,
+            currencies: currencies,
+            capital: capital
+        )
     }
     
 }
