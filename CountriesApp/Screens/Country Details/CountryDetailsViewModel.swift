@@ -7,30 +7,27 @@
 
 import Foundation
 import Combine
-import CountryDataService
 
 @MainActor
 class CountryDetailsViewModel: ObservableObject {
     private let countryCode: String
-    private let repository: CountryRepository
-    
+    private let interactor: CountryDetailsInteractor
+
     @Published var country: RequestState<CountryDetailsViewItem> = .loading
-    
     @Published var isStarred = false
 
-    init(countryCode: String, repository: CountryRepository) {
+    init(countryCode: String, interactor: CountryDetailsInteractor) {
         self.countryCode = countryCode
-        self.repository = repository
+        self.interactor = interactor
+        self.isStarred = interactor.isStarred(countryCode: countryCode)
     }
 
     func fetchCountry() async {
         country = .loading
         do {
-            let country = try await repository.fetchCountry(countryCode: countryCode)
-            let mappedCountry = mapToViewItem(country)
-            
+            let countryDetails = try await interactor.fetchCountryDetails(countryCode: countryCode)
             await MainActor.run { [weak self] in
-                self?.country = .success(mappedCountry)
+                self?.country = .success(countryDetails)
             }
         } catch {
             await MainActor.run { [weak self] in
@@ -38,45 +35,20 @@ class CountryDetailsViewModel: ObservableObject {
             }
         }
     }
-    
+
+    func toggleStarStatus() {
+        do {
+            try interactor.toggleStar()
+            isStarred = interactor.isStarred(countryCode: countryCode)
+        } catch {
+            print("❌ Failed to toggle star: \(error)")
+        }
+    }
+
     func retry() {
         Task {
             await fetchCountry()
         }
     }
-    
-    func toggleStarStatus() {
-        isStarred.toggle()
-    }
-    
-    private func mapToViewItem(_ country: Country) -> CountryDetailsViewItem {
-        let name = country.name
-        let flagURL = country.flags?["png"] ?? ""
-        let currencies: [String: String] = {
-            guard let currencies = country.currencies, !currencies.isEmpty else {
-                return ["No currency available": ""]
-            }
-            
-            return Dictionary(
-                uniqueKeysWithValues: currencies
-                    .map { (
-                        $0.name + " - " + $0.code,
-                        $0.symbol
-                    )
-                })
-        }()
-        let capital: String = {
-            if let capital = country.capital, !capital.isEmpty {
-                return capital
-            }
-            return "No capital available"
-        }()
-        return CountryDetailsViewItem(
-            name: name,
-            flagURL: flagURL,
-            currencies: currencies,
-            capital: capital
-        )
-    }
-    
 }
+

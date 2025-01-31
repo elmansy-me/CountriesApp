@@ -28,8 +28,18 @@ class CountryListViewModel: BaseViewModel {
     }
     
     func navigateToDetail(countryCode: String) {
-        let repository = CountryRepositoryBuilder.build()
-        let viewModel = CountryDetailsViewModel(countryCode: countryCode, repository: repository)
+        let countryRepository = CountryRepositoryBuilder.build()
+        let favoritesRepository = FavoritesRepositoryBuilder.build()
+
+        let interactor = CountryDetailsInteractorImpl(
+            countryRepository: countryRepository,
+            favoritesRepository: favoritesRepository
+        )
+
+        let viewModel = CountryDetailsViewModel(
+            countryCode: countryCode,
+            interactor: interactor
+        )
         let view = CountryDetailsView(viewModel: viewModel)
         coordinator?.push(view)
     }
