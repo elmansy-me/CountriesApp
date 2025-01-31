@@ -15,6 +15,8 @@ class CountryDetailsViewModel: ObservableObject {
     private let repository: CountryRepository
     
     @Published var country: RequestState<CountryDetailsViewItem> = .loading
+    
+    @Published var isStarred = false
 
     init(countryCode: String, repository: CountryRepository) {
         self.countryCode = countryCode
@@ -41,6 +43,10 @@ class CountryDetailsViewModel: ObservableObject {
         Task {
             await fetchCountry()
         }
+    }
+    
+    func toggleStarStatus() {
+        isStarred.toggle()
     }
     
     private func mapToViewItem(_ country: Country) -> CountryDetailsViewItem {

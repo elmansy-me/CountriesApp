@@ -40,6 +40,14 @@ struct CountryDetailsView: View {
             }
         }
         .navigationTitle("Country Details")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: viewModel.toggleStarStatus ) {
+                    Image(systemName: viewModel.isStarred ? "star.fill" : "star")
+                        .foregroundColor(.yellow)
+                }
+            }
+        }
         .task {
             await viewModel.fetchCountry()
         }
