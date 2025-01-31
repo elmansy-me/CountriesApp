@@ -31,6 +31,7 @@
 		A7B9E5922D4A4E9C00AE3B0B /* CountriesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountriesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7B9E5A22D4A4E9D00AE3B0B /* CountriesAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountriesAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7B9E5AC2D4A4E9D00AE3B0B /* CountriesAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountriesAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7D233232D4C4D7C000D99A6 /* DatabaseKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DatabaseKit; sourceTree = "<group>"; };
 		A7DD1B872D4A51C900D08424 /* NetworkLayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkLayer; sourceTree = "<group>"; };
 		A7DD1B8B2D4A5CB000D08424 /* CountryDataService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CountryDataService; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +83,7 @@
 		A7B9E5892D4A4E9C00AE3B0B = {
 			isa = PBXGroup;
 			children = (
+				A7D233232D4C4D7C000D99A6 /* DatabaseKit */,
 				A7DD1B8B2D4A5CB000D08424 /* CountryDataService */,
 				A7DD1B872D4A51C900D08424 /* NetworkLayer */,
 				A7B9E5942D4A4E9C00AE3B0B /* CountriesApp */,
