@@ -8,21 +8,25 @@
 import Foundation
 import CountryDataService
 
-public class HomeInteractorImpl: HomeInteractor {
+class HomeInteractorImpl: HomeInteractor {
     private let userCountryRepository: UserCountryRepository
     private let favoritesRepository: FavoritesRepository
 
+    private var countries: [Country] = []
+    
     public init(userCountryRepository: UserCountryRepository, favoritesRepository: FavoritesRepository) {
         self.userCountryRepository = userCountryRepository
         self.favoritesRepository = favoritesRepository
     }
 
-    public func getSections() async throws -> [String: [Country]] {
-        var sections: [String: [Country]] = [:]
-
+    func getSections() async throws -> [HomeViewSectionItem] {
+        var sections: [HomeViewSectionItem] = []
+        countries.removeAll()
+        
         do {
             let userCountry = try await userCountryRepository.getCountry()
-            sections["My Country"] = [userCountry]
+            countries.append(userCountry)
+            sections.append(.init(title: "My Country", countries: [userCountry]))
         } catch {
             throw error
         }
@@ -30,7 +34,8 @@ public class HomeInteractorImpl: HomeInteractor {
         do {
             let starredCountries = try favoritesRepository.getStarredCountries()
             if !starredCountries.isEmpty {
-                sections["Starred"] = starredCountries
+                countries.append(contentsOf: starredCountries)
+                sections.append(.init(title: "Starred", countries: starredCountries))
             }
         } catch {
             throw error
@@ -38,4 +43,34 @@ public class HomeInteractorImpl: HomeInteractor {
 
         return sections
     }
+    
+    func toggleStar(countryCode: String) async throws -> [HomeViewSectionItem] {
+        guard let country = countries.first(where: { $0.countryCode == countryCode }) else {
+            throw HomeError.countryNotFound
+        }
+        
+        try favoritesRepository.toggleStar(for: country)
+        let sections = try await getSections()
+        return sections
+    }
+    
+    public func isStarred(countryCode: String) -> Bool {
+        return (try? favoritesRepository.isStarred(countryCode: countryCode)) ?? false
+    }
+    
+}
+
+extension HomeInteractorImpl {
+    
+    enum HomeError: Error, LocalizedError {
+        case countryNotFound
+        
+        var errorDescription: String? {
+            switch self {
+            case .countryNotFound:
+                return "Country not found"
+            }
+        }
+    }
+    
 }

@@ -19,6 +19,7 @@ struct AsyncImageView: View {
                 switch phase {
                 case .empty:
                     ProgressView()
+                        .frame(width: size.width, height: size.height)
                 case .success(let image):
                     image
                         .resizable()
@@ -42,7 +43,7 @@ struct AsyncImageView: View {
                 placeholder
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 32, height: 32)
+                    .frame(width: size.width, height: size.height)
                     .foregroundColor(.gray)
             } else {
                 EmptyView()

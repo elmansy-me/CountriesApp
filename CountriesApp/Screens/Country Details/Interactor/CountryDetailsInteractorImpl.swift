@@ -53,7 +53,7 @@ extension CountryDetailsInteractorImpl {
     enum CountryDetailsError: Error, LocalizedError {
         case countryNotLoaded
         
-        var localizedDescription: String {
+        var errorDescription: String {
             switch self {
             case .countryNotLoaded:
                 return "Country details not loaded yet, please try again later."

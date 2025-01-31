@@ -24,6 +24,5 @@ struct PopupView: View {
             Spacer()
             MessageView(icon: icon, message: message, actions: actions)
         }
-        .padding(.bottom, 8)
     }
 }

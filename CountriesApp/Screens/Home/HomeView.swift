@@ -24,13 +24,16 @@ struct HomeView: View {
             case .success(let sections):
                 VStack {
                     List {
-                        ForEach(sections.keys.sorted(), id: \.self) { key in
-                            Section(header: Text(key).font(.headline)) {
-                                if let countries = sections[key] {
-                                    CountryListView(countries: countries)
-                                } else {
-                                    LoadingView()
-                                }
+                        ForEach(sections, id: \.title) { section in
+                            Section(header: Text(section.title).font(.headline)) {
+                                CountryListView(countries: section.countries, rightView: .init(view: { countryCode in
+                                    AnyView(
+                                        Image(systemName: viewModel.isStarred(countryCode: countryCode) ? "star.fill" : "star")
+                                            .foregroundColor(.yellow)
+                                    )
+                                }, onTapGesture: { countryCode in
+                                    viewModel.toggleStarStatus(countryCode: countryCode)
+                                }))
                             }
                         }
                     }

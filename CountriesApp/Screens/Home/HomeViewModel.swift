@@ -11,7 +11,7 @@ import CountryDataService
 @MainActor
 class HomeViewModel: BaseViewModel {
     
-    @Published var sections: RequestState<[String: [Country]]> = .loading
+    @Published var sections: RequestState<[HomeViewSectionItem]> = .loading
     
     private let interactor: HomeInteractor
 
@@ -22,9 +22,9 @@ class HomeViewModel: BaseViewModel {
     func loadCountries() async {
         sections = .loading
         do {
-            let fetchedSections = try await interactor.getSections()
+            let sections = try await interactor.getSections()
             await MainActor.run { [weak self] in
-                self?.sections = .success(fetchedSections)
+                self?.sections = .success(sections)
             }
         } catch {
             await MainActor.run { [weak self] in
@@ -37,6 +37,26 @@ class HomeViewModel: BaseViewModel {
         Task {
             await loadCountries()
         }
+    }
+    
+    func toggleStarStatus(countryCode: String) {
+        Task {
+            do {
+                let sections = try await interactor.toggleStar(countryCode: countryCode)
+                await MainActor.run { [weak self] in
+                    self?.sections = .success(sections)
+                }
+            } catch {
+                let view = PopupView(message: error.localizedDescription, actions: [(.close(action: { [weak self] in
+                    self?.coordinator?.goBack()
+                }))])
+                coordinator?.presentPopup(view)
+            }
+        }
+    }
+    
+    func isStarred(countryCode: String) -> Bool {
+        interactor.isStarred(countryCode: countryCode)
     }
 
     func searchButtonTapped() {

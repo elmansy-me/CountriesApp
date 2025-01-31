@@ -9,5 +9,7 @@ import Foundation
 import CountryDataService
 
 protocol HomeInteractor {
-    func getSections() async throws -> [String: [Country]]
+    func getSections() async throws -> [HomeViewSectionItem]
+    func toggleStar(countryCode: String) async throws -> [HomeViewSectionItem]
+    func isStarred(countryCode: String) -> Bool
 }
