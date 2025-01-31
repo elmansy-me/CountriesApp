@@ -47,9 +47,9 @@ struct HomeView: View {
                     .padding()
                 }
             case .failure(let error):
-                MessageView(message: error, retryAction: {
+                MessageView(message: error, actions: [(.retry {
                     viewModel.retry()
-                })
+                })])
             }
         }
         .navigationTitle("Home")

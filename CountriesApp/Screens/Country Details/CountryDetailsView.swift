@@ -10,6 +10,7 @@ import CountryDataService
 
 struct CountryDetailsView: View {
     @StateObject private var viewModel: CountryDetailsViewModel
+    @EnvironmentObject private var coordinator: NavigationCoordinator
     
     init(viewModel: CountryDetailsViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -34,9 +35,9 @@ struct CountryDetailsView: View {
                 .padding(6)
                 .ignoresSafeArea(edges: .top)
             case .failure(let error):
-                MessageView(message: error, retryAction: {
+                MessageView(message: error, actions: [(.retry {
                     viewModel.retry()
-                })
+                })])
             }
         }
         .navigationTitle("Country Details")
@@ -47,6 +48,9 @@ struct CountryDetailsView: View {
                         .foregroundColor(.yellow)
                 }
             }
+        }
+        .onAppear {
+            viewModel.provideCoordinator(coordinator)
         }
         .task {
             await viewModel.fetchCountry()

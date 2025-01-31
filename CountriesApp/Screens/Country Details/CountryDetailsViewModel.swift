@@ -5,11 +5,11 @@
 //  Created by Ahmed Elmansy on 30/01/2025.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 
 @MainActor
-class CountryDetailsViewModel: ObservableObject {
+class CountryDetailsViewModel: BaseViewModel {
     private let countryCode: String
     private let interactor: CountryDetailsInteractor
 
@@ -41,7 +41,10 @@ class CountryDetailsViewModel: ObservableObject {
             try interactor.toggleStar()
             isStarred = interactor.isStarred(countryCode: countryCode)
         } catch {
-            print("❌ Failed to toggle star: \(error)")
+            let view = PopupView(message: error.localizedDescription, actions: [(.close(action: { [weak self] in
+                self?.coordinator?.goBack()
+            }))])
+            coordinator?.presentPopup(view)
         }
     }
 

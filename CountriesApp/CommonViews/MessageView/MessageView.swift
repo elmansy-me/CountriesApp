@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct MessageView: View {
-    let icon: MessageViewIcon
+    let icon: MessageViewIcon?
     let message: String
-    let retryAction: (() -> Void)?
+    let actions: [MessageViewAction]
     
-    init(icon: MessageViewIcon = .error, message: String, retryAction: (() -> Void)? = nil) {
+    init(icon: MessageViewIcon? = .error, message: String, actions: [MessageViewAction] = []) {
         self.icon = icon
         self.message = message
-        self.retryAction = retryAction
+        self.actions = actions
     }
     
     var body: some View {
         VStack(spacing: 12) {
             VStack(spacing: 8) {
-                Image(systemName: icon.systemName)
-                    .font(.system(size: 24))
-                    .foregroundColor(icon.foregroundColor)
+                if let icon {
+                    Image(systemName: icon.systemName)
+                        .font(.system(size: 24))
+                        .foregroundColor(icon.foregroundColor)
+                }
                 
                 Text(message)
                     .foregroundColor(Color(.label))
@@ -34,9 +36,11 @@ struct MessageView: View {
             .background(Color(UIColor.systemGray6))
             .cornerRadius(12)
             
-            if let retryAction {
-                Button(action: retryAction) {
-                    Text("Retry")
+            ForEach(actions, id: \.title) { action in
+                Button(action: {
+                    action.action?()
+                }) {
+                    Text(action.title)
                         .font(.headline)
                         .foregroundColor(Color(.systemBackground))
                         .frame(maxWidth: .infinity, minHeight: 50)
@@ -51,5 +55,5 @@ struct MessageView: View {
 }
 
 #Preview {
-    MessageView(message: "Something went wrong...", retryAction: {})
+    MessageView(message: "Something went wrong...", actions: [.close()])
 }

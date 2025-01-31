@@ -13,23 +13,18 @@ class HomeViewModel: BaseViewModel {
     
     @Published var sections: RequestState<[String: [Country]]> = .loading
     
-    private let repository: UserCountryRepository
+    private let interactor: HomeInteractor
 
-    init(repository: UserCountryRepository) {
-        self.repository = repository
+    init(interactor: HomeInteractor) {
+        self.interactor = interactor
     }
     
     func loadCountries() async {
         sections = .loading
         do {
-            let userCountry = try await repository.getCountry()
+            let fetchedSections = try await interactor.getSections()
             await MainActor.run { [weak self] in
-                self?.addSection(for: "My Country", with: [userCountry])
-            }
-            
-            let countries = try await repository.getStarredCountries()
-            await MainActor.run { [weak self] in
-                self?.addSection(for: "Starred", with: countries)
+                self?.sections = .success(fetchedSections)
             }
         } catch {
             await MainActor.run { [weak self] in
@@ -43,20 +38,7 @@ class HomeViewModel: BaseViewModel {
             await loadCountries()
         }
     }
-    
-    private func addSection(for key: String,with value: [Country]) {
-        guard var data = sections.data else {
-            sections = .success([key: value])
-            return
-        }
-        guard !data.keys.contains(key) else {
-            return
-        }
-        
-        data[key] = value
-        sections = .success(data)
-    }
-    
+
     func searchButtonTapped() {
         let repository = CountryRepositoryBuilder.build()
         let viewModel = SearchViewModel(repository: repository)
@@ -70,5 +52,4 @@ class HomeViewModel: BaseViewModel {
         let view = AllCountriesView(viewModel: viewModel)
         coordinator?.push(view)
     }
-    
 }

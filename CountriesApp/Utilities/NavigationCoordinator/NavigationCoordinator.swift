@@ -31,6 +31,15 @@ class NavigationCoordinator: NSObject, ObservableObject {
         navigationController.present(viewController, animated: animated)
     }
 
+    func presentPopup<T: View>(_ view: T, animated: Bool = true) {
+        guard let navigationController else { return }
+        let viewController = UIHostingController(rootView: view)
+        viewController.view.backgroundColor = .black.withAlphaComponent(0.5)
+        viewController.modalPresentationStyle = .overFullScreen
+        viewController.modalTransitionStyle = .crossDissolve
+        navigationController.present(viewController, animated: animated)
+    }
+
     func goBack(animated: Bool = true) {
         if let presentedVC = navigationController?.presentedViewController {
             presentedVC.dismiss(animated: animated)
