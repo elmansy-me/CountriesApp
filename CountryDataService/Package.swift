@@ -16,14 +16,18 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(name: "NetworkLayer", path: "../NetworkLayer")
+        .package(name: "NetworkLayer", path: "../NetworkLayer"),
+        .package(name: "DatabaseKit", path: "../DatabaseKit")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "CountryDataService",
-            dependencies: ["NetworkLayer"]
+            dependencies: [
+                "NetworkLayer",
+                "DatabaseKit"
+            ]
         ),
         .testTarget(
             name: "CountryDataServiceTests",
