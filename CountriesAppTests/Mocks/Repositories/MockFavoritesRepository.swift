@@ -14,7 +14,7 @@ class MockFavoritesRepository: FavoritesRepository {
 
     func toggleStar(for country: Country) throws {
         if let mockedError {
-            throw NSError(domain: "MockFavoritesRepository", code: -1, userInfo: nil)
+            throw mockedError
         }
         if let index = starredCountries.firstIndex(where: { $0.countryCode == country.countryCode }) {
             starredCountries.remove(at: index)
