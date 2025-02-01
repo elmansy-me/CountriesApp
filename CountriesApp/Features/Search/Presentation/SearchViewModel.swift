@@ -12,7 +12,7 @@ import CountryDataService
 @MainActor
 class SearchViewModel: ObservableObject {
     
-    private var allCountries: [CountryListItem] = []
+    private(set) var allCountries: [CountryListItem] = []
     private var cancellables: Set<AnyCancellable> = []
     
     @Published private(set) var countries: RequestState<[CountryListItem]?> = .success([])
