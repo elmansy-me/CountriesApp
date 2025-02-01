@@ -14,7 +14,7 @@ public class NetworkService {
         self.session = session
     }
 
-    public func request<T: Decodable>(_ apiRequest: APIRequest, responseType: T.Type) async throws -> T {
+    public func request<T: Decodable>(_ apiRequest: APIRequest, responseType: T.Type) async throws(NetworkError) -> T {
         let data = try await fetchData(apiRequest)
         
         do {
@@ -24,11 +24,11 @@ public class NetworkService {
         }
     }
     
-    public func request(_ apiRequest: APIRequest) async throws -> Data {
+    public func request(_ apiRequest: APIRequest) async throws(NetworkError) -> Data {
         return try await fetchData(apiRequest)
     }
     
-    private func fetchData(_ apiRequest: APIRequest) async throws -> Data {
+    private func fetchData(_ apiRequest: APIRequest) async throws(NetworkError) -> Data {
         let request = try apiRequest.buildURLRequest()
         
         do {

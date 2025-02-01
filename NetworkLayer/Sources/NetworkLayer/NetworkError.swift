@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkError: Error, LocalizedError {
+public enum NetworkError: Error, LocalizedError {
     case invalidURL
     case noResponse
     case statusCode(Int)
@@ -15,7 +15,7 @@ enum NetworkError: Error, LocalizedError {
     case apiError(APIErrorResponse)
     case unknown(Error)
 
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .invalidURL:
             return "URL is invalid."
@@ -28,7 +28,7 @@ enum NetworkError: Error, LocalizedError {
         case .apiError(let error):
             return "\(error.message) (\(error.status))"
         case .unknown(let error):
-            return "An unknown error occurred: \(error.localizedDescription)"
+            return error.localizedDescription
         }
     }
 }

@@ -7,12 +7,21 @@
 
 import Foundation
 import NetworkLayer
+import DatabaseKit
 
 public final class CountryRepositoryBuilder {
     static public func build() -> CountryRepository {
         let networkService = NetworkService()
         let remoteService = RemoteCountryService(networkService: networkService)
-        let repository = CountryRepositoryImpl(remoteService: remoteService)
+        let database = UserDefaultsDatabase()
+        let networkMonitor = NetworkMonitorServiceImpl()
+        
+        let repository = CountryRepositoryImpl(
+            remoteService: remoteService,
+            database: database,
+            networkMonitor: networkMonitor
+        )
+        
         return repository
     }
 }

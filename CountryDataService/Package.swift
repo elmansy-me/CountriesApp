@@ -17,7 +17,8 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "NetworkLayer", path: "../NetworkLayer"),
-        .package(name: "DatabaseKit", path: "../DatabaseKit")
+        .package(name: "DatabaseKit", path: "../DatabaseKit"),
+        .package(url: "https://github.com/ashleymills/Reachability.swift", from: "5.2.4")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -26,7 +27,8 @@ let package = Package(
             name: "CountryDataService",
             dependencies: [
                 "NetworkLayer",
-                "DatabaseKit"
+                "DatabaseKit",
+                .product(name: "Reachability", package: "reachability.swift")
             ]
         ),
         .testTarget(

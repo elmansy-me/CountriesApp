@@ -18,7 +18,7 @@ public protocol APIRequest {
 }
 
 extension APIRequest {
-    func buildURLRequest() throws -> URLRequest {
+    func buildURLRequest() throws(NetworkError) -> URLRequest {
         var components = URLComponents()
         components.scheme = scheme.rawValue
         components.host = host
