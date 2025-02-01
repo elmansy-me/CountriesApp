@@ -425,6 +425,7 @@
 				DEVELOPMENT_TEAM = 3NGDU3RV5L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Countries;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need access to your location to determine your country.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to determine your country.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -457,6 +458,7 @@
 				DEVELOPMENT_TEAM = 3NGDU3RV5L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Countries;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need access to your location to determine your country.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to determine your country.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
