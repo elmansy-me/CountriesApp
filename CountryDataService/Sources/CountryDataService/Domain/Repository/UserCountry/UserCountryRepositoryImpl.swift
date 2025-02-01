@@ -29,20 +29,12 @@ class UserCountryRepositoryImpl: UserCountryRepository {
         }
         
         let countryCode = try await remoteService.fetchCountryCode()
-        let country = try await remoteService.fetchRemoteCountry(countryCode: countryCode)
+        let country = try await remoteService.fetchCountry(countryCode: countryCode)
         localService.saveCountry(country)
         return country
     }
     
     func getStarredCountries() async throws -> [Country] {
-        let isConnected = await networkMonitor.isConnected()
-
-        if !isConnected, let cachedCountries = localService.fetchCachedStarredCountries() {
-            return cachedCountries
-        }
-        
-        let countries = try await remoteService.fetchRemoteStarredCountries()
-        localService.saveStarredCountries(countries)
-        return countries
+        localService.fetchCachedStarredCountries() ?? []
     }
 }

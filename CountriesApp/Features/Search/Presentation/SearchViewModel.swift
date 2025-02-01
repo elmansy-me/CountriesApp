@@ -57,6 +57,7 @@ class SearchViewModel: ObservableObject {
     }
     
     private func search(query: String) {
+        guard !allCountries.isEmpty else { return }
         let result = interactor.search(query: query, allCountries: allCountries)
         countries = .success(result)
     }

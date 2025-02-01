@@ -9,29 +9,19 @@ import Foundation
 
 class RemoteUserCountryServiceImpl: RemoteUserCountryService {
     
-    private let repository: CountryRepository
-    private let remoteService: CountryCodeService
-    private let localService: CountryCodeService
+    private let countryRepository: CountryRepository
+    private let countryCodeRepository: CountryCodeRepository
 
-    init(repository: CountryRepository, remoteService: CountryCodeService, localService: CountryCodeService) {
-        self.repository = repository
-        self.remoteService = remoteService
-        self.localService = localService
+    init(countryRepository: CountryRepository, countryCodeRepository: CountryCodeRepository) {
+        self.countryRepository = countryRepository
+        self.countryCodeRepository = countryCodeRepository
     }
 
     func fetchCountryCode() async throws -> String {
-        if let countryCode = try? await localService.getCountryCode() {
-            return countryCode
-        }
-        return try await remoteService.getCountryCode()
+        return try await countryCodeRepository.getCountryCode()
     }
 
-    func fetchRemoteCountry(countryCode: String) async throws -> Country {
-        return try await repository.fetchCountry(countryCode: countryCode)
-    }
-
-    func fetchRemoteStarredCountries() async throws -> [Country] {
-        let data = try await repository.fetchCountries()
-        return Array(data.prefix(5))
+    func fetchCountry(countryCode: String) async throws -> Country {
+        return try await countryRepository.fetchCountry(countryCode: countryCode)
     }
 }

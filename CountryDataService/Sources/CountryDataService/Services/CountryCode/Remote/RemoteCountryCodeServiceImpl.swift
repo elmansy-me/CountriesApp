@@ -1,14 +1,14 @@
 //
-//  RemoteCountryCodeService.swift
+//  RemoteCountryCodeServiceImpl.swift
 //  CountryDataService
 //
-//  Created by Ahmed Elmansy on 30/01/2025.
+//  Created by Ahmed Elmansy on 01/02/2025.
 //
 
 import Foundation
 import NetworkLayer
 
-class RemoteCountryCodeService: CountryCodeService {
+class RemoteCountryCodeServiceImpl: RemoteCountryCodeService {
     
     private let networkService: NetworkService
     
@@ -26,5 +26,4 @@ class RemoteCountryCodeService: CountryCodeService {
             throw CountryError.custom("Failed to parse country code response")
         }
     }
-    
 }

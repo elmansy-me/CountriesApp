@@ -1,14 +1,14 @@
 //
-//  LocalCountryCodeService.swift
+//  LocalCountryCodeServiceImpl.swift
 //  CountryDataService
 //
-//  Created by Ahmed Elmansy on 30/01/2025.
+//  Created by Ahmed Elmansy on 01/02/2025.
 //
 
 import Foundation
 import CoreLocation
 
-class LocalCountryCodeService: NSObject, ObservableObject, CLLocationManagerDelegate, CountryCodeService {
+class LocalCountryCodeServiceImpl: NSObject, ObservableObject, CLLocationManagerDelegate, LocalCountryCodeService {
     
     private var locationManager: CLLocationManager?
     private var continuation: CheckedContinuation<String, Error>?

@@ -12,15 +12,9 @@ import DatabaseKit
 public final class UserCountryRepositoryBuilder {
     static public func build() -> UserCountryRepository {
         let databaseService = UserDefaultsDatabase()
-        let networkMonitor = NetworkMonitorServiceImpl()
-        
-        let countryRepository = CountryRepositoryBuilder.build()
-        let remoteService = RemoteUserCountryServiceImpl(
-            repository: countryRepository,
-            remoteService: RemoteCountryCodeService(networkService: NetworkService()),
-            localService: LocalCountryCodeService()
-        )
         let localService = LocalUserCountryServiceImpl(databaseService: databaseService)
+        let remoteService = RemoteUserCountryServiceBuilder.build()
+        let networkMonitor = NetworkMonitorServiceImpl()
         
         return UserCountryRepositoryImpl(
             localService: localService,
