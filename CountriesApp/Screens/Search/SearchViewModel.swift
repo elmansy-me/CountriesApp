@@ -26,11 +26,14 @@ class SearchViewModel: ObservableObject {
     }
     
     func loadCountries() async {
+        guard allCountries.isEmpty else { return }
+        
         countries = .loading
         do {
             let countries = try await repository.fetchCountries()
             await MainActor.run { [weak self] in
                 self?.allCountries = countries
+                self?.countries = .success([])
             }
         } catch {
             await MainActor.run { [weak self] in
