@@ -17,4 +17,12 @@ public struct Country: Codable, Sendable {
     public var countryCode: String {
         alpha2Code
     }
+    
+    public init(name: String = "", capital: String? = nil, currencies: [Currency]? = nil, flags: [String : String]? = nil, alpha2Code: String = "") {
+        self.name = name
+        self.capital = capital
+        self.currencies = currencies
+        self.flags = flags
+        self.alpha2Code = alpha2Code
+    }
 }
