@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import CountryDataService
 
 @main
 struct CountriesAppApp: App {
+    
+    private let appCoordinator = AppCoordinator()
+    @StateObject private var navigationCoordinator = NavigationCoordinator()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            appCoordinator.start(coordinator: navigationCoordinator)
+                .environmentObject(navigationCoordinator)
         }
     }
 }
