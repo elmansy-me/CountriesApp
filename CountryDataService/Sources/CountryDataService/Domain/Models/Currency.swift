@@ -9,4 +9,10 @@ import Foundation
 
 public struct Currency: Codable, Sendable {
     public let code, name, symbol: String
+    
+    public init(code: String, name: String, symbol: String) {
+        self.code = code
+        self.name = name
+        self.symbol = symbol
+    }
 }
