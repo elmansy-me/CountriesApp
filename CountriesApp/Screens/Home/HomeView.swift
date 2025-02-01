@@ -9,11 +9,11 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @StateObject private var viewModel: HomeViewModel
+    @ObservedObject private var viewModel: HomeViewModel
     @EnvironmentObject var coordinator: NavigationCoordinator
     
     init(viewModel: HomeViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+        self.viewModel = viewModel
     }
     
     var body: some View {

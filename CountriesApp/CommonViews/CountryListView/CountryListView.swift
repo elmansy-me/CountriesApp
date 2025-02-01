@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CountryDataService
 
 struct CountryListView: View {
     
@@ -14,7 +13,7 @@ struct CountryListView: View {
     @EnvironmentObject var coordinator: NavigationCoordinator
     let rightView: RightView?
 
-    init(countries: [Country], rightView: RightView? = nil) {
+    init(countries: [CountryListItem], rightView: RightView? = nil) {
         self.viewModel = CountryListViewModel(countries: countries)
         self.rightView = rightView
     }

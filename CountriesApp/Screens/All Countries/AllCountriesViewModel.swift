@@ -11,18 +11,21 @@ import CountryDataService
 @MainActor
 class AllCountriesViewModel: BaseViewModel {
     
-    @Published var allCountries: RequestState<[Country]> = .loading
+    @Published var allCountries: RequestState<[CountryListItem]> = .loading
     
-    private let repository: CountryRepository
+    private let interactor: AllCountriesInteractor
 
-    init(repository: CountryRepository) {
-        self.repository = repository
+    init(interactor: AllCountriesInteractor) {
+        self.interactor = interactor
     }
     
     func loadCountries() async {
+        let data = allCountries.data ?? []
+        guard data.isEmpty else { return }
+        
         allCountries = .loading
         do {
-            let countries = try await repository.fetchCountries()
+            let countries = try await interactor.fetchCountries()
             await MainActor.run { [weak self] in
                 self?.allCountries = .success(countries)
             }
@@ -41,7 +44,8 @@ class AllCountriesViewModel: BaseViewModel {
     
     func searchButtonTapped() {
         let repository = CountryRepositoryBuilder.build()
-        let viewModel = SearchViewModel(repository: repository)
+        let interactor = SearchInteractorImpl(repository: repository)
+        let viewModel = SearchViewModel(interactor: interactor)
         let view = SearchView(viewModel: viewModel)
         coordinator?.push(view)
     }

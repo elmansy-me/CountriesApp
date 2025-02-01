@@ -24,18 +24,16 @@ class HomeInteractorImpl: HomeInteractor {
         countries.removeAll()
         
         do {
-            let userCountry = try await userCountryRepository.getCountry()
-            countries.append(userCountry)
-            sections.append(.init(title: "My Country", countries: [userCountry]))
-        } catch {
-            throw error
-        }
-
-        do {
+            let myCountry = try await userCountryRepository.getCountry()
+            countries.append(myCountry)
+            let mappedMyCountry = mapCountriesToListItems([myCountry])
+            sections.append(.init(title: "My Country", countries: mappedMyCountry))
+            
             let starredCountries = try favoritesRepository.getStarredCountries()
             if !starredCountries.isEmpty {
                 countries.append(contentsOf: starredCountries)
-                sections.append(.init(title: "Starred", countries: starredCountries))
+                let mappedStarredCountries = mapCountriesToListItems(starredCountries)
+                sections.append(.init(title: "Starred", countries: mappedStarredCountries))
             }
         } catch {
             throw error
@@ -54,8 +52,18 @@ class HomeInteractorImpl: HomeInteractor {
         return sections
     }
     
-    public func isStarred(countryCode: String) -> Bool {
+    func isStarred(countryCode: String) -> Bool {
         return (try? favoritesRepository.isStarred(countryCode: countryCode)) ?? false
+    }
+    
+    private func mapCountriesToListItems(_ countries: [Country]) -> [CountryListItem] {
+        countries.map({ country in
+            CountryListItem(
+                name: country.name,
+                flagURL: country.flags?["png"],
+                countryCode: country.countryCode
+            )
+        })
     }
     
 }

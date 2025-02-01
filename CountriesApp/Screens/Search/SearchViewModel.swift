@@ -12,16 +12,16 @@ import CountryDataService
 @MainActor
 class SearchViewModel: ObservableObject {
     
-    private var allCountries: [Country] = []
+    private var allCountries: [CountryListItem] = []
     private var cancellables: Set<AnyCancellable> = []
     
-    @Published private(set) var countries: RequestState<[Country]?> = .success([])
+    @Published private(set) var countries: RequestState<[CountryListItem]?> = .success([])
     @Published var query: String = ""
     
-    private let repository: CountryRepository
-    
-    init(repository: CountryRepository) {
-        self.repository = repository
+    private let interactor: SearchInteractor
+
+    init(interactor: SearchInteractor) {
+        self.interactor = interactor
         bind()
     }
     
@@ -30,7 +30,7 @@ class SearchViewModel: ObservableObject {
         
         countries = .loading
         do {
-            let countries = try await repository.fetchCountries()
+            let countries = try await interactor.fetchCountries()
             await MainActor.run { [weak self] in
                 self?.allCountries = countries
                 self?.countries = .success([])
@@ -57,19 +57,7 @@ class SearchViewModel: ObservableObject {
     }
     
     private func search(query: String) {
-        guard !query.isEmpty else {
-            countries = .success([])
-            return
-        }
-        let lowercasedQuery = query.lowercased()
-        let result = allCountries.filter {
-            $0.name.lowercased().contains(lowercasedQuery)
-        }
-        if result.isEmpty {
-            countries = .success(nil)
-        } else {
-            countries = .success(result)
-        }
+        let result = interactor.search(query: query, allCountries: allCountries)
+        countries = .success(result)
     }
-    
 }

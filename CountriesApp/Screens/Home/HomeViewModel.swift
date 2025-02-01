@@ -61,14 +61,16 @@ class HomeViewModel: BaseViewModel {
 
     func searchButtonTapped() {
         let repository = CountryRepositoryBuilder.build()
-        let viewModel = SearchViewModel(repository: repository)
+        let interactor = SearchInteractorImpl(repository: repository)
+        let viewModel = SearchViewModel(interactor: interactor)
         let view = SearchView(viewModel: viewModel)
         coordinator?.push(view)
     }
     
     func viewAllCountriesTapped() {
         let repository = CountryRepositoryBuilder.build()
-        let viewModel = AllCountriesViewModel(repository: repository)
+        let interactor = AllCountriesInteractorImpl(repository: repository)
+        let viewModel = AllCountriesViewModel(interactor: interactor)
         let view = AllCountriesView(viewModel: viewModel)
         coordinator?.push(view)
     }

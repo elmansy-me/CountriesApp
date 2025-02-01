@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import CountryDataService
 
 struct HomeViewSectionItem {
     let title: String
-    let countries: [Country]
+    let countries: [CountryListItem]
 }
