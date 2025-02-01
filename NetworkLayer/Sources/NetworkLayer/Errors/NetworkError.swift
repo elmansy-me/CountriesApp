@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum NetworkError: Error, LocalizedError {
+public enum NetworkError: Error, LocalizedError, Equatable {
     case invalidURL
     case noResponse
     case statusCode(Int)
@@ -29,6 +29,26 @@ public enum NetworkError: Error, LocalizedError {
             return "\(error.message) (\(error.status))"
         case .unknown(let error):
             return error.localizedDescription
+        }
+    }
+    
+    public static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        switch (lhs, rhs) {
+        case (.invalidURL, .invalidURL),
+            (.noResponse, .noResponse):
+            return true
+        case let (.statusCode(lhsCode), .statusCode(rhsCode)):
+            return lhsCode == rhsCode
+        case let (.decodingError(lhsError), .decodingError(rhsError)):
+            return lhsError.localizedDescription == rhsError.localizedDescription
+        case let (.apiError(lhsError), .apiError(rhsError)):
+            return lhsError.message == rhsError.message &&
+                   lhsError.status == rhsError.status
+        case let (.unknown(lhsError), .unknown(rhsError)):
+            return (lhsError as NSError).domain == (rhsError as NSError).domain &&
+            (lhsError as NSError).localizedDescription == (rhsError as NSError).localizedDescription
+        default:
+            return false
         }
     }
 }
