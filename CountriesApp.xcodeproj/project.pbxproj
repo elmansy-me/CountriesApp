@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A72B58642D4D9C7300BD7C0F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A72B58632D4D9C7300BD7C0F /* Kingfisher */; };
 		A7DD1B8D2D4A63D000D08424 /* CountryDataService in Frameworks */ = {isa = PBXBuildFile; productRef = A7DD1B8C2D4A63D000D08424 /* CountryDataService */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A72B58642D4D9C7300BD7C0F /* Kingfisher in Frameworks */,
 				A7DD1B8D2D4A63D000D08424 /* CountryDataService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +134,7 @@
 			name = CountriesApp;
 			packageProductDependencies = (
 				A7DD1B8C2D4A63D000D08424 /* CountryDataService */,
+				A72B58632D4D9C7300BD7C0F /* Kingfisher */,
 			);
 			productName = CountriesApp;
 			productReference = A7B9E5922D4A4E9C00AE3B0B /* CountriesApp.app */;
@@ -215,6 +218,9 @@
 			);
 			mainGroup = A7B9E5892D4A4E9C00AE3B0B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A72B58622D4D9C7300BD7C0F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A7B9E5932D4A4E9C00AE3B0B /* Products */;
 			projectDirPath = "";
@@ -585,7 +591,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		A72B58622D4D9C7300BD7C0F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		A72B58632D4D9C7300BD7C0F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A72B58622D4D9C7300BD7C0F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		A7DD1B8C2D4A63D000D08424 /* CountryDataService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CountryDataService;

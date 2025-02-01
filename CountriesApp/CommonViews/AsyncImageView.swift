@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct AsyncImageView: View {
     let url: String?
@@ -14,27 +15,14 @@ struct AsyncImageView: View {
     let cornerRadius: CGFloat = 4
     
     var body: some View {
-        if let urlString = url, !urlString.isEmpty, let imageURL = URL(string: urlString) {
-            AsyncImage(url: imageURL) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                        .frame(width: size.width, height: size.height)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: size.width, height: size.height)
-                        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-                case .failure:
-                    placeholderImage
-                @unknown default:
-                    placeholderImage
-                }
+        KFImage(URL(string: url ?? ""))
+            .placeholder {
+                placeholderImage
             }
-        } else {
-            placeholderImage
-        }
+            .resizable()
+            .scaledToFit()
+            .frame(width: size.width, height: size.height)
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
     }
     
     private var placeholderImage: some View {
